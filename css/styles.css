@@ -1,6 +1,6 @@
 body {
   font-family: "Roboto";
-  background-color: #e5e5e5;
+  background-color: #fafafa;
 }
 
 .header {
@@ -27,6 +27,55 @@ h1 {
   width: 1083px;
   margin: 0 auto;
   margin-top: 134px;
+}
+
+.landingScreen .no-own-quizzes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 181px;
+  width: 1051px;
+
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='5' ry='5' stroke='%23D5D5D5FF' stroke-width='2' stroke-dasharray='4' stroke-dashoffset='3' stroke-linecap='round'/%3e%3c/svg%3e");
+
+  margin-left: 15px;
+  margin-top: 12px;
+  margin-bottom: 77px;
+
+  border-radius: 5px;
+}
+
+.landingScreen .no-own-quizzes p:first-child {
+  width: 250px;
+  text-align: center;
+  line-height: 23px;
+  font-size: 20px;
+  color: #b9b9b9;
+}
+
+.landingScreen .no-own-quizzes div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 151px;
+  margin-top: 30px;
+  cursor: pointer;
+  position: relative;
+}
+.landingScreen .no-own-quizzes div img {
+  height: 40px;
+  width: 151px;
+  border-radius: 18px;
+  position: absolute;
+}
+
+.landingScreen .no-own-quizzes a {
+  line-height: 25px;
+  font-size: 21px;
+  color: #ec362d;
+  text-align: center;
 }
 
 .landingScreen div:last-child {
