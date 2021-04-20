@@ -1,0 +1,55 @@
+.quizz-creation {
+    width: 600px;
+    margin: 0 auto;
+}
+
+/* start */
+
+.start > div:first-child {
+    height: 58px;
+    text-align: center;
+}
+
+.start h2 {
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.start > div:nth-child(2) {
+    height: 256px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 18px 22px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.start input {
+    height: 46px;
+    padding-left: 24px;
+    border-radius: 5px;
+    border: 1px solid #D1D1D1;
+    font-style: italic;
+    font-family: Roboto;
+    font-size: 19px;
+    color:#BABABA;
+}
+
+.start > div:last-child {
+    height: 139px;
+    text-align: center;
+}
+
+.start button {
+    width: 324px;
+    height: 54px;
+    margin-top: 85px;
+    background: #EC362D;
+    border-radius: 15px;
+    border: none;
+    font-family: Roboto;
+    font-size: 18px;
+    color: #FFF5F4;
+}
