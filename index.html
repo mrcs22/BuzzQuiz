@@ -22,7 +22,7 @@
       <h1>BuzzQuizz</h1>
     </div>
     <div class="container">
-      <div class="landingScreen">
+      <div class="landingScreen ocult">
         <div class="no-own-quizzes">
           <p>Você não criou nenhum quizz ainda :(</p>
           <div>
@@ -39,16 +39,18 @@
         </div>
       </div>
       <div class="quizz-player ocult"></div>
-      <div class="quizz-creation ocult">
+      <div class="quizz-creation">
         <div class="start ocult">
           <div>
             <h2>Comece pelo começo</h2>
           </div>
           <div>
-            <input type="text" placeholder="Título do seu quizz" />
-            <input type="text" placeholder="URL da imagem do seu quizz" />
-            <input type="text" placeholder="Quantidade de perguntas do quizz" />
-            <input type="text" placeholder="Quantidade de níveis do quizz" />
+            <div class="text-field">
+              <input type="text" placeholder="Título do seu quizz" />
+              <input type="text" placeholder="URL da imagem do seu quizz" />
+              <input type="text" placeholder="Quantidade de perguntas do quizz" />
+              <input type="text" placeholder="Quantidade de níveis do quizz" />
+            </div>
           </div>
           <div>
             <button>Prosseguir para criar perguntas</button>
@@ -56,7 +58,7 @@
         </div>
         <div class="questions ocult">
           <div>
-            <h2>Comece pelo começo</h2>
+            <h2>Crie suas perguntas</h2>
           </div>
           <div class="question">
             <div class="question-head">
@@ -164,13 +166,41 @@
             <button>Prosseguir pra criar níveis</button>
           </div>
         </div>
-        <div class="levels ocult">
+        <div class="levels">
           <div>
             <h2>Agora, decida os níveis!</h2>
           </div>
           <div class="level">
             <div class="level-head">
               <h3>Nível 1</h3>
+              <ion-icon name="clipboard-outline"></ion-icon>
+            </div>
+            <div class="level-body">
+              <div class="text-field">
+                <input type="text" placeholder="Título do nível">
+                <input type="text" placeholder="% de acerto mínima">
+                <input type="text" placeholder="URL da imagem do nível">
+                <input type="text" placeholder="Descrição do nível" class="description">
+              </div>
+            </div>
+          </div>
+          <div class="level fold">
+            <div class="level-head">
+              <h3>Nível 2</h3>
+              <ion-icon name="clipboard-outline"></ion-icon>
+            </div>
+            <div class="level-body">
+              <div class="text-field">
+                <input type="text" placeholder="Título do nível">
+                <input type="text" placeholder="% de acerto mínima">
+                <input type="text" placeholder="URL da imagem do nível">
+                <input type="text" placeholder="Descrição do nível" class="description">
+              </div>
+            </div>
+          </div>
+          <div class="level fold">
+            <div class="level-head">
+              <h3>Nível 3</h3>
               <ion-icon name="clipboard-outline"></ion-icon>
             </div>
             <div class="level-body">

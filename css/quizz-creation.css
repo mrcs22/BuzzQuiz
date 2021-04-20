@@ -1,3 +1,5 @@
+/* general quizz-creation style */
+
 .quizz-creation {
     width: 600px;
     margin: 0 auto;
@@ -28,14 +30,23 @@
 }
 
 .quizz-creation button {
-    width: 324px;
+    min-width: 325px;
     height: 54px;
+    padding: 0px 30px;
     background: #EC362D;
     border-radius: 15px;
     border: none;
     font-family: Roboto;
-    font-size: 18px;
+    font-size: 21px;
     color: #FFF5F4;
+}
+
+.fold > div:first-child {
+    height: 74px;
+}
+
+.fold > div:last-child {
+    display: none;
 }
 
 @media (max-width: 1083px) {
@@ -60,25 +71,32 @@
     }
 }
 
-/* start */
+/* start, questions, levels */
 
-.start > div:first-child {
+
+.start > div:first-child, .questions > div:first-child, .levels > div:first-child {
     height: 58px;
     text-align: center;
 }
 
-.start > div:nth-child(2) {
-    height: 256px;
+
+.start > div:nth-child(2), .question, .level {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    padding: 0px 16px;
+    margin-bottom: 24px;
+}
+
+.start .text-field, .questions .text-field, .levels .text-field {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 18px 22px;
-    background: #FFFFFF;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    padding: 16px 0px;
 }
 
-.start > div:last-child {
-    height: 139px;
+
+.start > div:last-child, .questions > div:last-child, .levels > div:last-child {
+    height: 115px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -87,32 +105,12 @@
 
 @media (max-width: 600px) {
 
-    .start > div:last-child {
-        height: 83px;
+    .start > div:last-child, .questions > div:last-child, .levels > div:last-child {
+        height: 79px;
     }
 }
 
-/* questions */
-
-.questions > div:first-child {
-    height: 58px;
-    text-align: center;
-}
-
-.questions .text-field, .levels .text-field {
-    height: 138px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 16px 0px;
-}
-
-.question, .level {
-    background: #FFFFFF;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
-    padding: 0px 16px;
-    margin-bottom: 24px;
-}
+/* questions, levels */
 
 .question-head, .level-head {
     display: flex;
@@ -120,43 +118,27 @@
     align-items: center;
 }
 
-.question-head ion-icon {
+.question-head ion-icon, .level-head ion-icon {
     font-size: 26px;
 }
 
-.questions > div:last-child {
-    height: 115px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
+/* start */
+
+.start .text-field {
+    height: 258px;
 }
 
-.fold > div:first-child {
-    height: 74px;
-}
+/* questions */
 
-.fold > div:last-child {
-    display: none;
-}
-
-@media (max-width: 600px) {
-
-    .questions > div:last-child {
-        height: 76px;
-    }
+.questions .text-field {
+    height: 138px;
 }
 
 /* levels */
 
-.level {
-    padding: 20px 16px;
-}
-
 .levels .text-field {
-    height: 357px;
-    padding: 0;
+    height: 391px;
+    padding-bottom: 20px;
 }
 
 input.description {
