@@ -78,7 +78,7 @@ h1 {
   text-align: center;
 }
 
-.landingScreen div:last-child {
+.landingScreen > div:last-child {
   padding-left: 15px;
 }
 .landingScreen div:last-child strong {
@@ -90,6 +90,7 @@ h1 {
   flex-wrap: wrap;
 }
 .quizz {
+  flex-shrink: 0;
   height: 181px;
   width: 340px;
   font-size: 19px;
@@ -133,4 +134,25 @@ h1 {
 
 .ocult {
   display: none;
+}
+
+@media (max-width: 1100px) {
+  .container {
+    width: 340px;
+    margin-top: 100px;
+  }
+
+  .landingScreen .no-own-quizzes {
+    width: 340px;
+    margin: 0;
+    margin-bottom: 35px;
+  }
+
+  .landingScreen > div:last-child {
+    padding-left: 0;
+  }
+
+  .quizz {
+    margin-right: 0;
+  }
 }
