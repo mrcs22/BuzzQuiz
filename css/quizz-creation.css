@@ -8,10 +8,10 @@
     padding-left: 24px;
     border-radius: 5px;
     border: 1px solid #D1D1D1;
+    outline: none;
     font-style: italic;
     font-family: Roboto;
     font-size: 19px;
-    color:#BABABA;
 }
 
 .quizz-creation h2 {
@@ -24,7 +24,7 @@
     font-size: 20px;
     font-family: Roboto;
     font-weight: bold;
-    margin: 26px 0px;
+    margin: 12px 0px;
 }
 
 .quizz-creation button {
@@ -117,6 +117,11 @@
 .question-head {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.question-head ion-icon {
+    font-size: 26px;
 }
 
 .questions > div:last-child {
@@ -126,6 +131,14 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
+}
+
+.fold > div:first-child {
+    height: 74px;
+}
+
+.fold > div:last-child {
+    display: none;
 }
 
 @media (max-width: 600px) {
