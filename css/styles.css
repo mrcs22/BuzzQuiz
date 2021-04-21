@@ -199,7 +199,6 @@ h1 {
   margin-top: 20px;
 }
 .answers div {
-  height: 219px;
   width: 333px;
 
   overflow: hidden;
@@ -243,7 +242,11 @@ h1 {
     line-height: 22px;
   }
 
-  .landingScreen,
+  .landingScreen {
+    width: 340px;
+    margin: 0 auto;
+  }
+
   .quizz-player {
     width: 375px;
     margin: 0 auto;
@@ -257,6 +260,7 @@ h1 {
 
   .landingScreen > div:last-child {
     padding-left: 0;
+    width: 340px;
   }
 
   .quizz {
@@ -282,7 +286,6 @@ h1 {
     margin-top: 12px;
   }
   .answers div {
-    height: 141px;
     width: 164px;
 
     overflow: hidden;
