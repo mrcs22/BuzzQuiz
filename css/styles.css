@@ -160,6 +160,61 @@ h1 {
   word-break: break-all;
 }
 
+.quizz-player .quizz-question {
+  width: 760px;
+  background-color: #fff;
+  margin: 0 auto;
+  padding: 36px;
+  padding-top: 28px;
+  padding-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.quizz-player .quizz-question .question-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 138px;
+  background-color: purple;
+}
+
+.quizz-player .quizz-question .question-header strong {
+  font-size: 23px;
+  line-height: 90px;
+  text-align: center;
+  color: #fff;
+}
+
+.answers {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.answers div {
+  height: 219px;
+  width: 333px;
+
+  overflow: hidden;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.answers div:nth-child(odd) {
+  margin-right: 22px;
+}
+
+.answers div strong {
+  display: block;
+  font-size: 20px;
+  line-height: 23.5px;
+  margin-top: 8px;
+}
+.quizz-player .quizz-question img {
+  height: 175px;
+  width: 100%;
+}
+
 .ocult {
   display: none;
 }
