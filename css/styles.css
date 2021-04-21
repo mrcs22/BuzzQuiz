@@ -29,7 +29,8 @@ h1 {
   align-items: center;
   height: 227px;
   overflow: hidden;
-  margin-top: 69px;
+  margin-top: -65px;
+  margin-bottom: 42px;
   background-color: rgba(0, 0, 0, 0.6);
   position: relative;
 }
@@ -50,9 +51,14 @@ h1 {
 }
 
 .container {
-  width: 1083px;
+  width: 100%;
   margin: 0 auto;
   margin-top: 134px;
+}
+
+.landingScreen {
+  width: 1083px;
+  margin: 0 auto;
 }
 
 .landingScreen .no-own-quizzes {
@@ -225,9 +231,21 @@ h1 {
     margin-top: 100px;
   }
 
+  .banner {
+    height: 142px;
+    margin-top: -35px;
+    margin-bottom: 42px;
+  }
+
+  .banner p {
+    max-width: 90%;
+    font-size: 19px;
+    line-height: 22px;
+  }
+
   .landingScreen,
   .quizz-player {
-    width: 340px;
+    width: 375px;
     margin: 0 auto;
   }
 
@@ -243,5 +261,47 @@ h1 {
 
   .quizz {
     margin-right: 0;
+  }
+
+  .quizz-player .quizz-question {
+    width: 375px;
+
+    padding: 18px;
+  }
+
+  .quizz-player .quizz-question .question-header {
+    height: 89px;
+  }
+
+  .quizz-player .quizz-question .question-header strong {
+    font-size: 19px;
+    line-height: 22px;
+  }
+
+  .answers {
+    margin-top: 12px;
+  }
+  .answers div {
+    height: 141px;
+    width: 164px;
+
+    overflow: hidden;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  .answers div:nth-child(odd) {
+    margin-right: 10px;
+  }
+
+  .answers div strong {
+    display: block;
+    font-size: 13px;
+    line-height: 15px;
+    margin-top: 6px;
+  }
+  .quizz-player .quizz-question img {
+    height: 113px;
+    width: 100%;
   }
 }
