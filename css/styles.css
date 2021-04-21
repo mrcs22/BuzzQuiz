@@ -23,6 +23,32 @@ h1 {
   color: #fff;
 }
 
+.banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 227px;
+  overflow: hidden;
+  margin-top: 69px;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+.banner img {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.banner p {
+  max-width: 90%;
+  font-size: 39px;
+  line-height: 45.5px;
+  text-align: center;
+  color: #fff;
+}
+
 .container {
   width: 1083px;
   margin: 0 auto;
