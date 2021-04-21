@@ -14,6 +14,7 @@ function validadeStartQuizzCreation() {
 }
 
 function startToQuestions() {
+    buildQuestions();
     document.querySelector(".start").classList.add("ocult");
     document.querySelector(".questions").classList.remove("ocult");
 }
@@ -101,8 +102,69 @@ function validURL(str) { // https://stackoverflow.com/questions/5717093/check-if
     return !!pattern.test(str);
 }
 
-function proceedToCreateQuestions() {
+// questions
 
+function buildQuestions() {
+    const questions = document.querySelector(".questions")
+    
+    questions.innerHTML =  `<div>
+                                <h2>Crie suas perguntas</h2>
+                            </div>`
+    
+
+    for(let i = 1; i < newQuizzObj.questions.length + 1; i++) {
+
+        let fold = ""
+        if (i >= 2) { fold = " fold"; }
+
+        questions.innerHTML +=  `<div class="question${fold}">
+                                    <div class="question-head" onclick="foldControl(this)">
+                                        <h3>Pergunta ${i}</h3>
+                                        <ion-icon name="create-outline"></ion-icon>
+                                    </div>
+                                    <div class="question-body">
+                                    <div class="text-field">
+                                        <input type="text" placeholder="Texto da pergunta" />
+                                        <input type="text" placeholder="Cor de fundo da pergunta" />
+                                    </div>
+                                    <div>
+                                        <h3>Resposta correta</h3>
+                                    </div>
+                                    <div class="text-field">
+                                        <input type="text" placeholder="Resposta correta" />
+                                        <input type="text" placeholder="URL da imagem" />
+                                    </div>
+                                    <div>
+                                        <h3>Respostas incorretas</h3>
+                                    </div>
+                                    <div class="text-field">
+                                        <input type="text" placeholder="Resposta incorreta 1" />
+                                        <input type="text" placeholder="URL da imagem 1" />
+                                    </div>
+                                    <div class="text-field">
+                                        <input type="text" placeholder="Resposta incorreta 2" />
+                                        <input type="text" placeholder="URL da imagem 2" />
+                                    </div>
+                                    <div class="text-field">
+                                        <input type="text" placeholder="Resposta incorreta 3" />
+                                        <input type="text" placeholder="URL da imagem 3" />
+                                    </div>
+                                    </div>
+                                </div>`
+
+    }
+
+    questions.innerHTML +=  `<div>
+                                <button>Prosseguir pra criar níveis</button>
+                            </div>`
 }
 
-// questions
+function foldControl(element) {
+    
+    const questionsList = document.querySelectorAll(".question");
+    for(let i = 0; i < questionsList.length; i++){
+        questionsList[i].classList.add("fold");
+    }
+
+    element.parentElement.classList.remove("fold");
+}
