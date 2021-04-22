@@ -89,6 +89,7 @@ function renderQuestions(questions, quizzId) {
 
     const header = document.createElement("div");
     header.classList.add("question-header");
+    header.style.backgroundColor = question.color;
 
     const title = document.createElement("strong");
     title.innerHTML = question.title;
@@ -168,6 +169,52 @@ function scrollToNextQuestion(questionIndex) {
     );
     if (nextQuestion !== null) {
       nextQuestion.scrollIntoView();
+    } else {
+      renderResultScreen();
     }
   }, 2000);
+}
+
+function renderResultScreen() {
+  const resultDiv = document.getElementById("resultDiv");
+  const scorePercentage =
+    (score / selectedQuizzData.questions.length).toFixed(2) * 100;
+  const reachedLevel = getReachedLevel(scorePercentage);
+
+  const header = document.createElement("div");
+  header.classList.add("question-header");
+  header.style.backgroundColor = "#EC362D";
+
+  const title = document.createElement("strong");
+  title.innerHTML = `${scorePercentage}% de acerto: ${selectedQuizzData.levels[reachedLevel].title}`;
+
+  const content = document.createElement("div");
+
+  const img = document.createElement("img");
+  img.setAttribute("src", selectedQuizzData.levels[reachedLevel].image);
+
+  const p = document.createElement("p");
+  p.innerHTML = selectedQuizzData.levels[reachedLevel].text;
+
+  content.appendChild(img);
+  content.appendChild(p);
+
+  header.appendChild(title);
+  resultDiv.appendChild(header);
+  resultDiv.appendChild(content);
+  resultDiv.scrollIntoView();
+}
+
+function getReachedLevel(scorePercentage) {
+  const levelsList = selectedQuizzData.levels.map((level) => level.minValue);
+
+  let reachedLevel = 0;
+
+  levelsList.forEach((level, index) => {
+    if (scorePercentage >= level) {
+      reachedLevel = index;
+    }
+  });
+
+  return reachedLevel;
 }
