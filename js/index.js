@@ -1,3 +1,5 @@
+let score = 0;
+let selectedQuizzData = null;
 start();
 
 function start() {
@@ -36,13 +38,14 @@ async function getQuizzes() {
 }
 
 async function startQuizz(quizzId) {
+  score = 0;
   const landingScreen = document.querySelector(".landingScreen");
   const quizzPlayer = document.querySelector(".quizz-player");
 
   const quizz = await getQuizz(quizzId);
 
   renderBanner(quizz.title, quizz.image);
-  renderQuestions(quizz.questions);
+  renderQuestions(quizz.questions, quizzId);
 
   landingScreen.classList.add("ocult");
   quizzPlayer.classList.remove("ocult");
@@ -52,6 +55,8 @@ async function getQuizz(id) {
   const response = await axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/${id}`
   );
+
+  selectedQuizzData = response.data;
 
   return response.data;
 }
@@ -72,14 +77,15 @@ function renderBanner(title, imageLink) {
   banner.classList.remove("ocult");
 }
 
-function renderQuestions(questions) {
+function renderQuestions(questions, quizzId) {
   const questionsList = document.querySelector(".quizz-player ul");
 
-  questions.forEach((question) => {
+  questions.forEach((question, questionIndex) => {
     const answers = question.answers;
 
     const li = document.createElement("li");
     li.classList.add("quizz-question");
+    li.setAttribute("id", `question${questionIndex}`);
 
     const header = document.createElement("div");
     header.classList.add("question-header");
@@ -90,8 +96,13 @@ function renderQuestions(questions) {
     const options = document.createElement("div");
     options.classList.add("answers");
 
-    answers.forEach((answer) => {
+    answers.forEach((answer, answerIndex) => {
       const div = document.createElement("div");
+      div.setAttribute("id", `answer${answerIndex}`);
+      div.setAttribute(
+        "onclick",
+        `checkAnswer(this, ${quizzId}, ${questionIndex}, ${answerIndex})`
+      );
 
       const img = document.createElement("img");
       img.setAttribute("src", answer.image);
@@ -113,17 +124,50 @@ function renderQuestions(questions) {
     questionsList.appendChild(li);
   });
 }
-const question = ` <li class="quizz-question">
-            <div class="question-header">
-              <strong> jahjash askjdhkjadh kjahsdkjhas?</strong>
-            </div>
-            <div class="answers">
-              <div>
-                <img
-                  src="https://s3cf.recapguide.com:444/img/tv/24/7x24/Friends-Season-7-Episode-24-2-e9d3.jpg"
-                  alt=""
-                />
-                <strong>Alguma coisa</strong>
-              </div>
-            </div>
-          </li>`;
+
+async function checkAnswer(selectedAnswer, quizzId, questionIndex) {
+  const question = document.getElementById(`question${questionIndex}`);
+  let answers = question.querySelector(".answers").children;
+  answers = Array.prototype.slice.call(answers);
+
+  const correctAnswerId = getCorrectAnswerId(quizzId, questionIndex);
+
+  answers.forEach((answer) => {
+    if (answer.id === correctAnswerId) {
+      answer.classList.add("unselected", "correct-answer");
+    } else {
+      answer.classList.add("unselected", "wrong-answer");
+    }
+    answer.setAttribute("onclick", "");
+  });
+
+  selectedAnswer.classList.remove("unselected");
+
+  if (selectedAnswer.id === correctAnswerId) {
+    score++;
+  }
+
+  scrollToNextQuestion(questionIndex);
+}
+
+function getCorrectAnswerId(quizzId, questionIndex) {
+  const selectedQuestionAnswers =
+    selectedQuizzData.questions[questionIndex].answers;
+
+  const indexOfCorrectAswer = selectedQuestionAnswers.findIndex(
+    (answer) => answer.isCorrectAnswer
+  );
+
+  return `answer${indexOfCorrectAswer}`;
+}
+
+function scrollToNextQuestion(questionIndex) {
+  setTimeout(() => {
+    const nextQuestion = document.getElementById(
+      `question${questionIndex + 1}`
+    );
+    if (nextQuestion !== null) {
+      nextQuestion.scrollIntoView();
+    }
+  }, 2000);
+}
