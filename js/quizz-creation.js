@@ -185,19 +185,21 @@ function validadeQuestionsQuizzCreation() {
     const questionsList = questions.querySelectorAll(".question-body");
 
     newQuizzObj.questions = [];
-    const boolArray = [];
+    let isValid = true;
     for(let i = 0; i < questionsList.length; i++) {
         const textFieldList = questionsList[i].querySelectorAll(".text-field");
 
+        // question
+
         const questionTitle = textFieldList[0].querySelector("input:first-child").value;
         const questionTitleObj = { text: questionTitle, minValue: 20, message: `O Título da pergunta ${i+1} deve ter no mínimo 20 caracteres` };
-        // const isQuestionTitleValid = validateStringLen(questionTitleObj);
-        boolArray.push(validateStringLen(questionTitleObj));
+        const isQuestionTitleValid = validateStringLen(questionTitleObj);
+        if(!isQuestionTitleValid) {isValid = false;}
         newQuizzObj.questions[i] = ({ title: questionTitle});
 
         const questionColor = textFieldList[0].querySelector("input:last-child").value
-        // const isColorValid = isColor(questionColor, i);
-        boolArray.push(isColor(questionColor, i));
+        const isColorValid = isColor(questionColor, i);
+        if(!isColorValid) {isValid = false;}
         newQuizzObj.questions[i].color = questionColor;
 
         // correct answer
@@ -205,16 +207,18 @@ function validadeQuestionsQuizzCreation() {
         newQuizzObj.questions[i].answers = [];
         const correctAnswerText = textFieldList[1].querySelector("input:first-child").value;
         const correctAnswerTextObj = { text: correctAnswerText, minValue: 1, message: `A resposta da pergunta ${i+1} não pode ser vazia` };
-        // const isCorrectAnswerTextValid = validateStringLen(correctAnswerTextObj);
-        boolArray.push(validateStringLen(correctAnswerTextObj));
+        const isCorrectAnswerTextValid = validateStringLen(correctAnswerTextObj);
+        if(!isCorrectAnswerTextValid) {isValid = false;}
         newQuizzObj.questions[i].answers[0] = { text: correctAnswerText};
 
         const correctAnswerURL = textFieldList[1].querySelector("input:last-child").value
-        // const isCorrectAnswerURLValid = validateQuizzImgUrl(questions, correctAnswerURL);
-        boolArray.push(validateQuizzImgUrl(questions, correctAnswerURL));
+        const isCorrectAnswerURLValid = validateQuizzImgUrl(questions, correctAnswerURL);
+        if(!isCorrectAnswerURLValid) {isValid = false;}
         newQuizzObj.questions[i].answers[0].image = correctAnswerURL;
 
         newQuizzObj.questions[i].answers[0].isCorrectAnswer = true;
+
+        // wrong answers
 
         const atLeastOneIncorrectAnswer = [];
         for(let j = 2; j < textFieldList.length; j++) {
@@ -240,15 +244,11 @@ function validadeQuestionsQuizzCreation() {
         }
         if (!atLeastOneIncorrectAnswer.find(bool => bool === true )) {
             alert(`Deve ter pelos menos uma resposta incorreta na pergunta ${i+1}`)
-        }
-        boolArray.push(atLeastOneIncorrectAnswer.find(bool => bool === true ));
-        console.log(boolArray);
-            
-        
+            isValid = false
+        }      
     }
-    console.log(newQuizzObj);
-    if(!boolArray.find(bool => bool === false )) {
-        alert("ok");
+    if(isValid) {
+        QuestionsToLevels();
     }
 }
 
@@ -280,7 +280,7 @@ function buildLevels() {
         let fold = ""
         if (i >= 2) { fold = " fold"; }
 
-        questions.innerHTML += `<div class="level${fold}">
+        levels.innerHTML += `<div class="level${fold}">
                                     <div class="level-head" onclick="foldControl(this)">
                                     <h3>Nível ${i}</h3>
                                     <ion-icon name="create-outline"></ion-icon>
@@ -301,7 +301,7 @@ function buildLevels() {
 
     }
 
-    questions.innerHTML +=  `<div>
+    levels.innerHTML +=  `<div>
                                 <button onclick="">Finalizar Quizz</button>
                             </div>`
 }
