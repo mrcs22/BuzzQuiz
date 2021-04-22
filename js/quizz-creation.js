@@ -185,16 +185,19 @@ function validadeQuestionsQuizzCreation() {
     const questionsList = questions.querySelectorAll(".question-body");
 
     newQuizzObj.questions = [];
+    const boolArray = [];
     for(let i = 0; i < questionsList.length; i++) {
         const textFieldList = questionsList[i].querySelectorAll(".text-field");
 
         const questionTitle = textFieldList[0].querySelector("input:first-child").value;
         const questionTitleObj = { text: questionTitle, minValue: 20, message: `O Título da pergunta ${i+1} deve ter no mínimo 20 caracteres` };
-        const isQuestionTitleValid = validateStringLen(questionTitleObj);
+        // const isQuestionTitleValid = validateStringLen(questionTitleObj);
+        boolArray.push(validateStringLen(questionTitleObj));
         newQuizzObj.questions[i] = ({ title: questionTitle});
 
         const questionColor = textFieldList[0].querySelector("input:last-child").value
-        const isColorValid = isColor(questionColor, i);
+        // const isColorValid = isColor(questionColor, i);
+        boolArray.push(isColor(questionColor, i));
         newQuizzObj.questions[i].color = questionColor;
 
         // correct answer
@@ -202,29 +205,51 @@ function validadeQuestionsQuizzCreation() {
         newQuizzObj.questions[i].answers = [];
         const correctAnswerText = textFieldList[1].querySelector("input:first-child").value;
         const correctAnswerTextObj = { text: correctAnswerText, minValue: 1, message: `A resposta da pergunta ${i+1} não pode ser vazia` };
-        const isCorrectAnswerTextValid = validateStringLen(correctAnswerTextObj);
+        // const isCorrectAnswerTextValid = validateStringLen(correctAnswerTextObj);
+        boolArray.push(validateStringLen(correctAnswerTextObj));
         newQuizzObj.questions[i].answers[0] = { text: correctAnswerText};
 
         const correctAnswerURL = textFieldList[1].querySelector("input:last-child").value
-        const isCorrectAnswerURLValid = validateQuizzImgUrl(questions, correctAnswerURL);
+        // const isCorrectAnswerURLValid = validateQuizzImgUrl(questions, correctAnswerURL);
+        boolArray.push(validateQuizzImgUrl(questions, correctAnswerURL));
         newQuizzObj.questions[i].answers[0].image = correctAnswerURL;
 
         newQuizzObj.questions[i].answers[0].isCorrectAnswer = true;
 
+        const atLeastOneIncorrectAnswer = [];
         for(let j = 2; j < textFieldList.length; j++) {
         
             const incorrectAnswerText = textFieldList[j].querySelector("input:first-child").value;
             newQuizzObj.questions[i].answers[j-1] = { text: incorrectAnswerText};
 
             const incorrectAnswerURL = textFieldList[j].querySelector("input:last-child").value
-            const isInCorrectAnswerURLValid = validateQuizzImgUrl(questions, incorrectAnswerURL);
+            let isInCorrectAnswerURLValid = false;
+            if(incorrectAnswerURL) {
+                isInCorrectAnswerURLValid = validateQuizzImgUrl(questions, incorrectAnswerURL);
+            }
             newQuizzObj.questions[i].answers[j-1].image = incorrectAnswerURL;
 
             newQuizzObj.questions[i].answers[j-1].isCorrectAnswer = false;
-        
+            
+            if (incorrectAnswerText && incorrectAnswerURL) {
+                atLeastOneIncorrectAnswer.push(true);
+            }
+            else {
+                atLeastOneIncorrectAnswer.push(false);
+            }
         }
+        if (!atLeastOneIncorrectAnswer.find(bool => bool === true )) {
+            alert(`Deve ter pelos menos uma resposta incorreta na pergunta ${i+1}`)
+        }
+        boolArray.push(atLeastOneIncorrectAnswer.find(bool => bool === true ));
+        console.log(boolArray);
+            
+        
     }
     console.log(newQuizzObj);
+    if(!boolArray.find(bool => bool === false )) {
+        alert("ok");
+    }
 }
 
 function isColor(strColor, index){
@@ -232,4 +257,51 @@ function isColor(strColor, index){
     s.color = strColor;
     if(s.color != strColor) { alert(`Código de cor da pergunta ${index+1} inválido!`); }
     return s.color == strColor;
-  }
+}
+
+function QuestionsToLevels() {
+    buildLevels();
+    document.querySelector(".questions").classList.add("ocult");
+    document.querySelector(".levels").classList.remove("ocult");
+}
+
+// levels
+
+function buildLevels() {
+    const levels = document.querySelector(".levels")
+    
+    levels.innerHTML =  `<div>
+                                <h2>Crie suas perguntas</h2>
+                            </div>`
+    
+
+    for(let i = 1; i < newQuizzObj.levels.length + 1; i++) {
+
+        let fold = ""
+        if (i >= 2) { fold = " fold"; }
+
+        questions.innerHTML += `<div class="level${fold}">
+                                    <div class="level-head" onclick="foldControl(this)">
+                                    <h3>Nível ${i}</h3>
+                                    <ion-icon name="create-outline"></ion-icon>
+                                    </div>
+                                    <div class="level-body">
+                                    <div class="text-field">
+                                        <input type="text" placeholder="Título do nível" />
+                                        <input type="text" placeholder="% de acerto mínima" />
+                                        <input type="text" placeholder="URL da imagem do nível" />
+                                        <input
+                                        type="text"
+                                        placeholder="Descrição do nível"
+                                        class="description"
+                                        />
+                                    </div>
+                                    </div>
+                                </div>`
+
+    }
+
+    questions.innerHTML +=  `<div>
+                                <button onclick="">Finalizar Quizz</button>
+                            </div>`
+}
