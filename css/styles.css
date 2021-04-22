@@ -204,6 +204,7 @@ h1 {
   overflow: hidden;
   margin-bottom: 10px;
   cursor: pointer;
+  transition: all 0.3s;
 }
 
 .answers div:nth-child(odd) {
@@ -216,6 +217,19 @@ h1 {
   line-height: 23.5px;
   margin-top: 8px;
 }
+
+.unselected {
+  opacity: 0.3;
+}
+
+.wrong-answer {
+  color: #ff4b4b;
+}
+
+.correct-answer {
+  color: #009c22;
+}
+
 .quizz-player .quizz-question img {
   height: 175px;
   width: 100%;
