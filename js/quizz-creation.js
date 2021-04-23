@@ -361,7 +361,26 @@ function isInRange(num, a, b) {
 }
 
 function levelToFinished() {
-    // buildFinished();
+    buildFinished();
     document.querySelector(".levels").classList.add("ocult");
     document.querySelector(".finished").classList.remove("ocult"); 
+}
+
+// finished
+
+function buildFinished() {
+    const finished = document.querySelector(".finished");
+
+    finished.innerHTML =   `<div>
+                                <h2>Seu quizz está pronto!</h2>
+                            </div>
+                            <div>
+                                <h2 class="finished-quizz-title">${newQuizzObj.title}</h2>
+                            </div>
+                            <div>
+                                <button>Acessar Quizz</button>
+                                <button>Voltar pra home</button>
+                            </div>`;
+
+    finished.querySelector("div:nth-child(2)").style.backgroundImage = `url('${newQuizzObj.image}')`;
 }
