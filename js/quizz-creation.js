@@ -453,7 +453,7 @@ function buildFinished() {
                                 <h2 class="finished-quizz-title">${newQuizzObj.title}</h2>
                             </div>
                             <div>
-                                <button onclick="startQuizz(lastQuizzCreated)">Acessar Quizz</button>
+                                <button onclick="accessYourQuizz(lastQuizzCreated)">Acessar Quizz</button>
                                 <button onclick="returnToStart()">Voltar pra home</button>
                             </div>`;
 
