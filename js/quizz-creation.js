@@ -47,6 +47,11 @@ function validateQuizzImgUrl(stage, ImgURL) {
     }
 }
 
+function foldControl(element, parentElementClass) {
+    
+    document.querySelectorAll(parentElementClass).forEach((parentElement) => parentElement.classList.add("fold"));
+    element.parentElement.classList.remove("fold");
+}
 
 // start
 
@@ -54,7 +59,7 @@ const newQuizzObj = {};
 let isImgURLValid;
 
 
-function validadeStartQuizzCreation() {
+function validateStartQuizzCreation() {
 
     const start = document.querySelector(".start")
     const imgURL = start.querySelector("input:nth-child(2)").value;
@@ -66,7 +71,7 @@ function validadeStartQuizzCreation() {
     const isTitleValid = validateStringLen(quizzTitleObj);
     newQuizzObj.title = quizzTitle;
 
-    const isQuestionsLevelsValid = validadeHowManyQuestionsLevels(start);
+    const isQuestionsLevelsValid = validateHowManyQuestionsLevels(start);
 
     setTimeout(function (bool, bool2) { if(bool && bool2 && isImgURLValid) { startToQuestions(); }}, 350, isTitleValid, isQuestionsLevelsValid);
 }
@@ -89,7 +94,7 @@ function loadCallback() {
 
 
 
-function validadeHowManyQuestionsLevels(stage) {
+function validateHowManyQuestionsLevels(stage) {
     const questions = parseInt(stage.querySelector("input:nth-child(3)").value);
     const levels = parseInt(stage.querySelector("input:last-child").value);
 
@@ -133,7 +138,7 @@ function buildQuestions() {
         if (i >= 2) { fold = " fold"; }
 
         questions.innerHTML +=  `<div class="question${fold}">
-                                    <div class="question-head" onclick="foldControl(this)">
+                                    <div class="question-head" onclick="foldControl(this, '.question')">
                                         <h3>Pergunta ${i}</h3>
                                         <ion-icon name="create-outline"></ion-icon>
                                     </div>
@@ -170,17 +175,11 @@ function buildQuestions() {
     }
 
     questions.innerHTML +=  `<div>
-                                <button onclick="validadeQuestionsQuizzCreation()">Prosseguir pra criar níveis</button>
+                                <button onclick="validateQuestionsQuizzCreation()">Prosseguir pra criar níveis</button>
                             </div>`
 }
 
-function foldControl(element) {
-    
-    document.querySelectorAll(".question").forEach((question) => question.classList.add("fold"));
-    element.parentElement.classList.remove("fold");
-}
-
-function validadeQuestionsQuizzCreation() {
+function validateQuestionsQuizzCreation() {
     const questions = document.querySelector(".questions");
     const questionsList = questions.querySelectorAll(".question-body");
 
@@ -248,7 +247,7 @@ function validadeQuestionsQuizzCreation() {
         }      
     }
     if(isValid) {
-        QuestionsToLevels();
+        questionsToLevels();
     }
 }
 
@@ -259,7 +258,7 @@ function isColor(strColor, index){
     return s.color == strColor;
 }
 
-function QuestionsToLevels() {
+function questionsToLevels() {
     buildLevels();
     document.querySelector(".questions").classList.add("ocult");
     document.querySelector(".levels").classList.remove("ocult");
@@ -281,7 +280,7 @@ function buildLevels() {
         if (i >= 2) { fold = " fold"; }
 
         levels.innerHTML += `<div class="level${fold}">
-                                    <div class="level-head" onclick="foldControl(this)">
+                                    <div class="level-head" onclick="foldControl(this, '.level')">
                                     <h3>Nível ${i}</h3>
                                     <ion-icon name="create-outline"></ion-icon>
                                     </div>
@@ -302,6 +301,67 @@ function buildLevels() {
     }
 
     levels.innerHTML +=  `<div>
-                                <button onclick="">Finalizar Quizz</button>
+                                <button onclick="validateLevelsQuizzCreation()">Finalizar Quizz</button>
                             </div>`
+}
+
+function validateLevelsQuizzCreation() {
+    const levels = document.querySelector(".levels");
+    const levelsList = levels.querySelectorAll(".level-body");
+
+    let atLeastOneZero = false;
+    let isValid = true
+
+    newQuizzObj.levels = [];
+    for(let i = 0; i < levelsList.length; i++) {
+        const textFieldList = levelsList[i].querySelector(".text-field");
+
+        const levelTitle = textFieldList.querySelector("input:first-child").value;
+        const levelTitleObj = { text: levelTitle, minValue: 10, message: `O Título do nível ${i+1} deve ter no mínimo 10 caracteres` };
+        const isLevelTitleValid = validateStringLen(levelTitleObj);
+        if(!isLevelTitleValid) { isValid = false; }
+        newQuizzObj.levels.push({ title: levelTitle});
+
+        const levelMinValue = textFieldList.querySelector("input:nth-child(2)").value;
+        if(levelMinValue == 0) { atLeastOneZero = true; }
+        console.log(levelMinValue);
+        const isLevelMinValueValid = isInRange(levelMinValue, 0, 100);
+        if(!isLevelMinValueValid) { isValid = false; }
+        if(!isLevelMinValueValid) { alert("% de acerto mínima deve ser entra 0 e 100") }
+        newQuizzObj.levels[i].minValue = levelMinValue;
+
+        const levelURL = textFieldList.querySelector("input:nth-child(3)").value
+        const islevelURLValid = validateQuizzImgUrl(levels, levelURL);
+        if(!islevelURLValid) { isValid = false; }
+        newQuizzObj.levels[i].image = levelURL;
+
+        const levelDescription = textFieldList.querySelector("input:last-child").value;
+        const levelDescriptionObj = { text: levelDescription, minValue: 30, message: `A descrição do nível ${i+1} deve ter no mínimo 30 caracteres` };
+        const isLevelDescriptionValid = validateStringLen(levelDescriptionObj);
+        if(!isLevelDescriptionValid) { isValid = false; }
+        newQuizzObj.levels[i].text = levelDescription;
+    }
+    console.log(newQuizzObj);
+    console.log(isValid);
+    console.log(atLeastOneZero);
+    if(isValid && atLeastOneZero) {
+        levelToFinished()
+    }
+}   
+
+function isInRange(num, a, b) {
+    const greaterEqual = num >= a;
+    const lessEqual = num <= b;
+    if(greaterEqual && lessEqual){
+        return true;
+    } 
+    else {
+        return false;
+    }
+}
+
+function levelToFinished() {
+    // buildFinished();
+    document.querySelector(".levels").classList.add("ocult");
+    document.querySelector(".finished").classList.remove("ocult"); 
 }
