@@ -11,6 +11,15 @@ async function renderQuizzes() {
   const quizzesList = document.querySelector(".quizzes");
   const landingScreen = document.querySelector(".landingScreen");
   const quizzes = await getQuizzes();
+  let idList = [];
+  const myQuizzesList = document.querySelector(".my-quizzes ul");
+
+  if (!!localStorage.getItem("quizzesList")) {
+    idList = JSON.parse(localStorage.getItem("quizzesList"));
+  }
+  showMyQuizzesScreen(idList);
+
+  console.log(idList);
 
   quizzes.forEach((quizz) => {
     const li = document.createElement("li");
@@ -27,11 +36,27 @@ async function renderQuizzes() {
     li.appendChild(img);
     li.appendChild(p);
 
-    quizzesList.appendChild(li);
+    if (idList.some((id) => id === quizz.id)) {
+      myQuizzesList.appendChild(li);
+    } else {
+      quizzesList.appendChild(li);
+    }
   });
 
   spinner("stop");
   landingScreen.classList.remove("ocult");
+}
+
+function showMyQuizzesScreen(idList) {
+  const myQuizzesScreen = document.querySelector(".my-quizzes");
+  const noQuizzesScreen = document.querySelector(".no-own-quizzes");
+
+  if (!!idList[0]) {
+    myQuizzesScreen.classList.remove("ocult");
+    noQuizzesScreen.classList.add("ocult");
+  }
+
+  return;
 }
 
 async function getQuizzes() {
@@ -101,7 +126,7 @@ function renderQuestions(questions, quizzId) {
     const answers = question.answers;
 
     answers.sort(() => {
-      return ive - serverMath.random() - 0.5;
+      return Math.random() - 0.5;
     });
 
     const li = document.createElement("li");
