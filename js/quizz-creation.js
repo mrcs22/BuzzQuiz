@@ -351,11 +351,7 @@ function buildLevels() {
                                         <input type="text" placeholder="Título do nível" />
                                         <input type="text" placeholder="% de acerto mínima" />
                                         <input type="text" placeholder="URL da imagem do nível" />
-                                        <input
-                                        type="text"
-                                        placeholder="Descrição do nível"
-                                        class="description"
-                                        />
+                                        <textarea name="text" rows="14" cols="10" wrap="soft"  placeholder="Descrição do nível" class="description"> </textarea>
                                     </div>
                                     </div>
                                 </div>`;
@@ -410,7 +406,7 @@ function validateLevelsQuizzCreation() {
     }
     newQuizzObj.levels[i].image = levelURL;
 
-    const levelDescription = textFieldList.querySelector("input:last-child")
+    const levelDescription = textFieldList.querySelector("textarea")
       .value;
     const levelDescriptionObj = {
       text: levelDescription,
@@ -476,6 +472,7 @@ function postNewQuizz() {
 }
 
 function quizzCreationSuccess(data) {
+  lastQuizzCreated = data.data.id;
   const id = data.data.id;
   const idList = JSON.parse(localStorage.getItem("quizzesList"));
 
