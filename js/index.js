@@ -101,7 +101,7 @@ function renderQuestions(questions, quizzId) {
     const answers = question.answers;
 
     answers.sort(() => {
-      return Math.random() - 0.5;
+      return ive - serverMath.random() - 0.5;
     });
 
     const li = document.createElement("li");
