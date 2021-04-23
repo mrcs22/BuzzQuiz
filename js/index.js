@@ -42,13 +42,21 @@ async function startQuizz(quizzId) {
   const landingScreen = document.querySelector(".landingScreen");
   const quizzPlayer = document.querySelector(".quizz-player");
 
+  const restartQuizzButton = document.querySelector(
+    ".quizz-finish-options button"
+  );
+
   const quizz = await getQuizz(quizzId);
+
+  restartQuizzButton.setAttribute("onclick", `restartQuizz(${quizzId})`);
 
   renderBanner(quizz.title, quizz.image);
   renderQuestions(quizz.questions, quizzId);
 
   landingScreen.classList.add("ocult");
   quizzPlayer.classList.remove("ocult");
+
+  window.scrollTo(0, 0);
 }
 
 async function getQuizz(id) {
@@ -63,6 +71,7 @@ async function getQuizz(id) {
 
 function renderBanner(title, imageLink) {
   const banner = document.querySelector(".banner");
+  banner.innerHTML = "";
 
   const img = document.createElement("img");
   img.setAttribute("src", imageLink);
@@ -79,6 +88,7 @@ function renderBanner(title, imageLink) {
 
 function renderQuestions(questions, quizzId) {
   const questionsList = document.querySelector(".quizz-player ul");
+  questionsList.innerHTML = "";
 
   questions.forEach((question, questionIndex) => {
     const answers = question.answers;
@@ -168,7 +178,7 @@ function scrollToNextQuestion(questionIndex) {
       `question${questionIndex + 1}`
     );
     if (nextQuestion !== null) {
-      nextQuestion.scrollIntoView();
+      nextQuestion.scrollIntoView({ behavior: "smooth" });
     } else {
       renderResultScreen();
     }
@@ -177,6 +187,8 @@ function scrollToNextQuestion(questionIndex) {
 
 function renderResultScreen() {
   const resultDiv = document.getElementById("resultDiv");
+
+  const optionsDiv = document.querySelector(".quizz-finish-options");
   const scorePercentage =
     (score / selectedQuizzData.questions.length).toFixed(2) * 100;
   const reachedLevel = getReachedLevel(scorePercentage);
@@ -202,7 +214,12 @@ function renderResultScreen() {
   header.appendChild(title);
   resultDiv.appendChild(header);
   resultDiv.appendChild(content);
-  resultDiv.scrollIntoView();
+  resultDiv.scrollIntoView({ behavior: "smooth" });
+
+  resultDiv.classList.remove("ocult");
+  optionsDiv.classList.remove("ocult");
+
+  resultDiv.scrollIntoView({ behavior: "smooth" });
 }
 
 function getReachedLevel(scorePercentage) {
@@ -217,4 +234,31 @@ function getReachedLevel(scorePercentage) {
   });
 
   return reachedLevel;
+}
+
+function restartQuizz(quizzId) {
+  const resultDiv = document.getElementById("resultDiv");
+  const optionsDiv = document.querySelector(".quizz-finish-options");
+
+  resultDiv.innerHTML = "";
+
+  optionsDiv.classList.add("ocult");
+  resultDiv.classList.add("ocult");
+
+  startQuizz(quizzId);
+  window.scrollTo(0, 0);
+}
+
+function backHome() {
+  const banner = document.querySelector(".banner");
+  const resultDiv = document.getElementById("resultDiv");
+  const landingScreen = document.querySelector(".landingScreen");
+  const quizzPlayer = document.querySelector(".quizz-player");
+
+  banner.classList.add("ocult");
+  landingScreen.classList.remove("ocult");
+  quizzPlayer.classList.add("ocult");
+
+  resultDiv.innerHTML = "";
+  window.scrollTo(0, 0);
 }
