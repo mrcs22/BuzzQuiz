@@ -27,11 +27,19 @@
       <div class="spinner ocult">
         <img src="./img/spinner.gif" alt="" />
       </div>
-      <div class="landingScreen ocult">
+      <div class="landingScreen">
+        <div class="my-quizzes ocult">
+          <div class="my-quizzes-header">
+            <strong>Seus Quizzes</strong>
+            <ion-icon onclick="newQuizz()" name="add-circle"></ion-icon>
+          </div>
+          <ul class=""></ul>
+        </div>
         <div class="no-own-quizzes">
           <p>Você não criou nenhum quizz ainda :(</p>
           <div>
             <img
+              onclick="newQuizz()"
               src="data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='18' ry='18' stroke='%23EC362DFF' stroke-width='2' stroke-dasharray='4' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e"
               alt=""
             />

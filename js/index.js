@@ -2,6 +2,14 @@ let score = 0;
 let selectedQuizzData = null;
 start();
 
+function newQuizz() {
+  console.log("mee");
+  const landingScreen = document.querySelector(".landingScreen");
+  const quizzCreation = document.querySelector(".quizz-creation");
+
+  landingScreen.classList.add("ocult");
+  quizzCreation.classList.remove("ocult");
+}
 function start() {
   spinner("start");
   renderQuizzes();
@@ -101,7 +109,7 @@ function renderQuestions(questions, quizzId) {
     const answers = question.answers;
 
     answers.sort(() => {
-      return Math.random() - 0.5;
+      return ive - serverMath.random() - 0.5;
     });
 
     const li = document.createElement("li");
