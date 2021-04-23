@@ -66,6 +66,7 @@ function foldControl(element, parentElementClass) {
 
 let newQuizzObj = {};
 let isImgURLValid;
+let lastQuizzCreated;
 
 
 function validateStartQuizzCreation() {
@@ -386,8 +387,8 @@ function buildFinished() {
                                 <h2 class="finished-quizz-title">${newQuizzObj.title}</h2>
                             </div>
                             <div>
-                                <button>Acessar Quizz</button>
-                                <button>Voltar pra home</button>
+                                <button onclick="startQuizz(lastQuizzCreated)">Acessar Quizz</button>
+                                <button onclick="returnToStart()">Voltar pra home</button>
                             </div>`;
 
     finished.querySelector("div:nth-child(2)").style.backgroundImage = `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 65.62%, rgba(0, 0, 0, 0.8) 100%),url('${newQuizzObj.image}')`;
@@ -401,10 +402,23 @@ function postNewQuizz() {
 
 function quizzCreationSuccess(data) {
     const stringifiedData = JSON.stringify(data);
-    localStorage.setItem(data.data.id, stringifiedData)
+    localStorage.setItem(data.data.id, stringifiedData);
+    lastQuizzCreated = data.data.id;
 }
 
 function quizzCreationError() {
     alert("Houve um erro na sua requisição, tente novamente mais tarde");
-    //returnToStart()
+    returnToStart()
+}
+
+function returnToStart() {
+    document.querySelector(".finished").classList.add("ocult");
+    document.querySelector(".quizz-creation").classList.add("ocult");
+    document.querySelector(".landingScreen").classList.remove("ocult");
+}
+
+function accessYourQuizz() {
+    document.querySelector(".finished").classList.add("ocult");
+    document.querySelector(".quizz-creation").classList.add("ocult");
+    startQuizz(lastQuizzCreated)
 }
