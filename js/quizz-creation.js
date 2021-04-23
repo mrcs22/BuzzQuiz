@@ -1,5 +1,14 @@
 // quizz-creation
 
+function startQuizzCreation() {
+    document.querySelector(".landingScreen").classList.add("ocult");
+    document.querySelector(".questions").classList.add("ocult");
+    document.querySelector(".levels").classList.add("ocult");
+    document.querySelector(".finished").classList.add("ocult");
+    document.querySelector(".quizz-creation").classList.remove("ocult");
+    document.querySelector(".start").classList.remove("ocult");
+}
+
 function validateStringLen(string) {
     let lessEqual;
     const greaterEqual = string.text.length >= string.minValue;
@@ -55,11 +64,12 @@ function foldControl(element, parentElementClass) {
 
 // start
 
-const newQuizzObj = {};
+let newQuizzObj = {};
 let isImgURLValid;
 
 
 function validateStartQuizzCreation() {
+    newQuizzObj = {};
 
     const start = document.querySelector(".start")
     const imgURL = start.querySelector("input:nth-child(2)").value;
@@ -223,17 +233,19 @@ function validateQuestionsQuizzCreation() {
         for(let j = 2; j < textFieldList.length; j++) {
         
             const incorrectAnswerText = textFieldList[j].querySelector("input:first-child").value;
-            newQuizzObj.questions[i].answers[j-1] = { text: incorrectAnswerText};
 
             const incorrectAnswerURL = textFieldList[j].querySelector("input:last-child").value
             let isInCorrectAnswerURLValid = false;
             if(incorrectAnswerURL) {
                 isInCorrectAnswerURLValid = validateQuizzImgUrl(questions, incorrectAnswerURL);
             }
-            newQuizzObj.questions[i].answers[j-1].image = incorrectAnswerURL;
 
-            newQuizzObj.questions[i].answers[j-1].isCorrectAnswer = false;
-            
+            if(incorrectAnswerText) {
+                newQuizzObj.questions[i].answers[j-1] = { text: incorrectAnswerText};
+                newQuizzObj.questions[i].answers[j-1].image = incorrectAnswerURL;
+                newQuizzObj.questions[i].answers[j-1].isCorrectAnswer = false;
+            }
+
             if (incorrectAnswerText && incorrectAnswerURL) {
                 atLeastOneIncorrectAnswer.push(true);
             }
@@ -251,11 +263,10 @@ function validateQuestionsQuizzCreation() {
     }
 }
 
-function isColor(strColor, index){
-    const s = new Option().style;
-    s.color = strColor;
-    if(s.color != strColor) { alert(`Código de cor da pergunta ${index+1} inválido!`); }
-    return s.color == strColor;
+function isColor(hex, index){
+    const isValid = hex.match(/^#[a-f0-9]{6}$/i) !== null;
+    if(!isValid) { alert(`Código de cor da pergunta ${index+1} inválido!`); }
+    return isValid;
 }
 
 function questionsToLevels() {
@@ -324,7 +335,6 @@ function validateLevelsQuizzCreation() {
 
         const levelMinValue = textFieldList.querySelector("input:nth-child(2)").value;
         if(levelMinValue == 0) { atLeastOneZero = true; }
-        console.log(levelMinValue);
         const isLevelMinValueValid = isInRange(levelMinValue, 0, 100);
         if(!isLevelMinValueValid) { isValid = false; }
         if(!isLevelMinValueValid) { alert("% de acerto mínima deve ser entra 0 e 100") }
@@ -341,9 +351,6 @@ function validateLevelsQuizzCreation() {
         if(!isLevelDescriptionValid) { isValid = false; }
         newQuizzObj.levels[i].text = levelDescription;
     }
-    console.log(newQuizzObj);
-    console.log(isValid);
-    console.log(atLeastOneZero);
     if(isValid && atLeastOneZero) {
         levelToFinished()
     }
@@ -363,7 +370,8 @@ function isInRange(num, a, b) {
 function levelToFinished() {
     buildFinished();
     document.querySelector(".levels").classList.add("ocult");
-    document.querySelector(".finished").classList.remove("ocult"); 
+    document.querySelector(".finished").classList.remove("ocult");
+    postNewQuizz()
 }
 
 // finished
@@ -382,5 +390,21 @@ function buildFinished() {
                                 <button>Voltar pra home</button>
                             </div>`;
 
-    finished.querySelector("div:nth-child(2)").style.backgroundImage = `url('${newQuizzObj.image}')`;
+    finished.querySelector("div:nth-child(2)").style.backgroundImage = `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 65.62%, rgba(0, 0, 0, 0.8) 100%),url('${newQuizzObj.image}')`;
+}
+
+function postNewQuizz() {
+    const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes", newQuizzObj);
+    request.then(quizzCreationSuccess);
+    request.catch(quizzCreationError);
+}
+
+function quizzCreationSuccess(data) {
+    const stringifiedData = JSON.stringify(data);
+    localStorage.setItem(data.data.id, stringifiedData)
+}
+
+function quizzCreationError() {
+    alert("Houve um erro na sua requisição, tente novamente mais tarde");
+    //returnToStart()
 }
