@@ -2,14 +2,6 @@ let score = 0;
 let selectedQuizzData = null;
 start();
 
-function newQuizz() {
-  console.log("mee");
-  const landingScreen = document.querySelector(".landingScreen");
-  const quizzCreation = document.querySelector(".quizz-creation");
-
-  landingScreen.classList.add("ocult");
-  quizzCreation.classList.remove("ocult");
-}
 function start() {
   spinner("start");
   renderQuizzes();
