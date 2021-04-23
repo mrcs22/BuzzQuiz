@@ -476,9 +476,16 @@ function postNewQuizz() {
 }
 
 function quizzCreationSuccess(data) {
-  const stringifiedData = JSON.stringify(data);
-  localStorage.setItem(data.data.id, stringifiedData);
-  lastQuizzCreated = data.data.id;
+  const id = data.data.id;
+  const idList = JSON.parse(localStorage.getItem("quizzesList"));
+
+  if (idList === null) {
+    localStorage.setItem("quizzesList", JSON.stringify([id]));
+  } else {
+    idList.push(id);
+    localStorage.setItem("quizzesList", JSON.stringify(idList));
+  }
+  alert(id);
 }
 
 function quizzCreationError() {
