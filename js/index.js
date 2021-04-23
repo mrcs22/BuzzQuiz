@@ -3,11 +3,13 @@ let selectedQuizzData = null;
 start();
 
 function start() {
+  spinner("start");
   renderQuizzes();
 }
 
 async function renderQuizzes() {
   const quizzesList = document.querySelector(".quizzes");
+  const landingScreen = document.querySelector(".landingScreen");
   const quizzes = await getQuizzes();
 
   quizzes.forEach((quizz) => {
@@ -27,6 +29,9 @@ async function renderQuizzes() {
 
     quizzesList.appendChild(li);
   });
+
+  spinner("stop");
+  landingScreen.classList.remove("ocult");
 }
 
 async function getQuizzes() {
@@ -46,6 +51,8 @@ async function startQuizz(quizzId) {
     ".quizz-finish-options button"
   );
 
+  landingScreen.classList.add("ocult");
+  spinner("start");
   const quizz = await getQuizz(quizzId);
 
   restartQuizzButton.setAttribute("onclick", `restartQuizz(${quizzId})`);
@@ -53,7 +60,7 @@ async function startQuizz(quizzId) {
   renderBanner(quizz.title, quizz.image);
   renderQuestions(quizz.questions, quizzId);
 
-  landingScreen.classList.add("ocult");
+  spinner("stop");
   quizzPlayer.classList.remove("ocult");
 
   window.scrollTo(0, 0);
@@ -92,6 +99,10 @@ function renderQuestions(questions, quizzId) {
 
   questions.forEach((question, questionIndex) => {
     const answers = question.answers;
+
+    answers.sort(() => {
+      return Math.random() - 0.5;
+    });
 
     const li = document.createElement("li");
     li.classList.add("quizz-question");
@@ -261,4 +272,15 @@ function backHome() {
 
   resultDiv.innerHTML = "";
   window.scrollTo(0, 0);
+}
+
+function spinner(action) {
+  const spinner = document.querySelector(".spinner");
+
+  if (action === "start") {
+    spinner.classList.remove("ocult");
+  }
+  if (action === "stop") {
+    spinner.classList.add("ocult");
+  }
 }
